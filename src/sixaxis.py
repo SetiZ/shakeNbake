@@ -93,7 +93,7 @@ class ThreadClass(threading.Thread):
                             #print "Shake"
                             if player.check_state():
                                 player.setUri(soundcloud_api.getTrack())
-                            shake_allowed_time = timestamp + 500
+                            shake_allowed_time = timestamp + 50
                     else:
                         shake = False
                         
