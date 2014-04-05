@@ -14,7 +14,6 @@ def getTrack():
 
     track = tracks[0]
 
-    print track.title
     stream_url = client.get(track.stream_url, allow_redirects=False)
-    print stream_url.location
+    print track.title
     return stream_url.location

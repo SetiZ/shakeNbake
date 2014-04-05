@@ -15,6 +15,7 @@ while(1):
     if shakeNbake.sixaxis.getShake() == True:
         player.setUri(shakeNbake.soundcloud_api.getTrack())
     if shakeNbake.sixaxis.getButton()["cross"] == True:
+        player.stop()
         print "Play!"
         player.play()
     
