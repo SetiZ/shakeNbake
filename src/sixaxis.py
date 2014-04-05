@@ -4,10 +4,6 @@ import time
 import struct
 import threading
 import numpy
-import audio
-import soundcloud_api
-
-player = audio.Player()
 
 button_name = [
         "select" ,
@@ -78,9 +74,6 @@ class ThreadClass(threading.Thread):
                 if value == 1:
                     button_pressed[button_name[id_]] = True
                     print "Bake"
-                    if player.check_state():
-                        player.stop()
-                    player.play()
                 elif value == 0:
                     button_pressed[button_name[id_]] = False
                     
@@ -91,8 +84,8 @@ class ThreadClass(threading.Thread):
                         if timestamp > shake_allowed_time:
                             shake = True
                             #print "Shake"
-                            if player.check_state():
-                                player.setUri(soundcloud_api.getTrack())
+                            #if player.check_state():
+                            #    player.setUri(soundcloud_api.getTrack())
                             shake_allowed_time = timestamp + 50
                     else:
                         shake = False
