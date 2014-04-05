@@ -3,8 +3,9 @@ import os
 import time
 import struct
 import threading
+import numpy
 
-button_map = [
+button_name = [
         "select" ,
         "l3" ,
         "r3" ,
@@ -44,7 +45,7 @@ button_pressed = {
         "ps" : False
         }
 
-axis_map = {}
+axis_values = [0, 0, 0, 0, 0, 0, 0]
 
 running = 1
 
@@ -56,25 +57,27 @@ class ThreadClass(threading.Thread):
         global button_pressed
         global button_map
         global running
+        global axis_values
 
         while 1:
             if(running == 0):
                 exit()
 
             data = pipe.read(8)
-            timestamp, value, type, number = struct.unpack('IhBB', data)
+            timestamp, value, type_, id_ = struct.unpack('IhBB', data)
 
-            if type & 0x01:
+            if type_ & 0x01:
                 if value == 1:
-                    button_pressed[button_map[number]] = True
+                    button_pressed[button_name[id_]] = True
+                    print "Bake"
                 elif value == 0:
-                    button_pressed[button_map[number]] = False
+                    button_pressed[button_name[id_]] = False
 
-            if type & 0x02:
-                if number == 1:
-                    print "Shake"
-
-
+            if type_ & 0x02:
+                if id_ < 7:
+                    if numpy.abs(axis_values[id_] - value) > 10000:
+                        print "Shake"
+                    axis_values[id_] = value
 
 t = ThreadClass()
 
