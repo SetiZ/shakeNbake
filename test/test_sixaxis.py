@@ -10,4 +10,6 @@ while(1):
     if shakeNbake.sixaxis.getButton()["ps"] == True:
         shakeNbake.sixaxis.shutdown()
         break
+    if shakeNbake.sixaxis.getShake() == True:
+        shakeNbake.soundcloud_api.getTrack()
     

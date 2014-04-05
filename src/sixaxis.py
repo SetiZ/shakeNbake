@@ -47,6 +47,8 @@ button_pressed = {
 
 axis_values = [0, 0, 0, 0, 0, 0, 0]
 
+shake = False
+
 running = 1
 
 class ThreadClass(threading.Thread):
@@ -58,6 +60,8 @@ class ThreadClass(threading.Thread):
         global button_map
         global running
         global axis_values
+        global shake 
+        shake_allowed_time = 0
 
         while 1:
             if(running == 0):
@@ -76,7 +80,13 @@ class ThreadClass(threading.Thread):
             if type_ & 0x02:
                 if id_ < 7:
                     if numpy.abs(axis_values[id_] - value) > 10000:
-                        print "Shake"
+                        if timestamp > shake_allowed_time:
+                            shake = True
+                            print "Shake"
+                            shake_allowed_time = timestamp + 500
+                        else:
+                            shake = False
+                        
                     axis_values[id_] = value
 
 t = ThreadClass()
@@ -98,6 +108,10 @@ def init(path):
 def getButton():
     global button_pressed
     return button_pressed
+
+def getShake():
+    global shake
+    return shake
 
 def shutdown():
     global running
