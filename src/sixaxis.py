@@ -1,19 +1,50 @@
 import sys
 import os
+import time
 import struct
 import threading
 
-joy = { 'leftx': 0.0, 'lefty': 0.0, 'rightx': 0.0, 'righty': 0.0, 
-        'trig0': False, 'trig1': False, 'trig2': False, 'trig3': False, 
-        'buttonup': False, 'buttondown': False, 'buttonleft': False, 'buttonright': False,
-        'triangle': False, 'circle': False, 'cross': False, 'square': False, 
-        'select': False, 'start': False, 'ps': False}
+button_map = [
+        "select" ,
+        "l3" ,
+        "r3" ,
+        "start" ,
+        "up" ,
+        "right" ,
+        "down" ,
+        "left" ,
+        "l2" ,
+        "r2" ,
+        "l1" ,
+        "r1" ,
+        "triangle" ,
+        "round" ,
+        "cross" ,
+        "square" ,
+        "ps" 
+        ]
 
-button_map = {
-        "Cross" : 14,
-        "Square" : 15
-
+button_pressed = {
+        "select" : False,
+        "l3" : False,
+        "r3" : False,
+        "start" : False,
+        "up" : False,
+        "right" : False,
+        "down" : False,
+        "left" : False,
+        "l2" : False,
+        "r2" : False,
+        "l1" : False,
+        "r1" : False,
+        "triangle" : False,
+        "round" : False,
+        "cross" : False,
+        "square" : False,
+        "ps" : False
         }
+
+axis_map = {}
 
 running = 1
 
@@ -22,6 +53,8 @@ class ThreadClass(threading.Thread):
         global pipe
         global action
         global spacing
+        global button_pressed
+        global button_map
         global running
 
         while 1:
@@ -29,10 +62,18 @@ class ThreadClass(threading.Thread):
                 exit()
 
             data = pipe.read(8)
-            time, value, type, number = struct.unpack('IhBB', data)
+            timestamp, value, type, number = struct.unpack('IhBB', data)
 
             if type & 0x01:
-                print "Button ", number
+                if value == 1:
+                    button_pressed[button_map[number]] = True
+                elif value == 0:
+                    button_pressed[button_map[number]] = False
+
+            if type & 0x02:
+                if number == 1:
+                    print "Shake"
+
 
 
 t = ThreadClass()
@@ -50,6 +91,10 @@ def init(path):
         return False
     t.start()
     return True
+
+def getButton():
+    global button_pressed
+    return button_pressed
 
 def shutdown():
     global running
