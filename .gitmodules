@@ -1,0 +1,3 @@
+[submodule "PythonTools"]
+	path = PythonTools
+	url = git@github.com:ISIR-SYROCO/IsirPythonTools.git
