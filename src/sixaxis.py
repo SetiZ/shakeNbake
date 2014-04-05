@@ -87,10 +87,10 @@ class ThreadClass(threading.Thread):
 
             if type_ & 0x02:
                 if id_ < 7:
-                    if numpy.abs(axis_values[id_] - value) > 20000:
+                    if numpy.abs(axis_values[id_] - value) > 10000:
                         if timestamp > shake_allowed_time:
                             shake = True
-                            print "Shake"
+                            #print "Shake"
                             if player.check_state():
                                 player.setUri(soundcloud_api.getTrack())
                             shake_allowed_time = timestamp + 500
