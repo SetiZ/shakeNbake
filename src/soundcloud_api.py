@@ -28,7 +28,7 @@ def search(step=None):
     while succeed == False:
         try:
             tracks_list = client.get('/tracks', license='cc-by-sa', genres=genres_list[current_genre_idx])
-            succeed == True
+            succeed = True
         except Exception, e:
             print 'Retry'
 
@@ -39,7 +39,11 @@ def getTrack():
 
     track = tracks_list[random_int]
 
-    stream_url = client.get(track.stream_url, allow_redirects=False)
+    try:
+        stream_url = client.get(track.stream_url, allow_redirects=False)
+    except Exception, e:
+        print "Get track error, default track "
+        return "https://soundcloud.hs.llnwd.net/43Jmlyo2Tmi3.128.mp3?AWSAccessKeyId=AKIAJ4IAZE5EOI7PA7VQ&Expires=1396778878&Signature=Z3BHM9fUUwzLaU9o3LuQ7%2BMi%2BUE%3D&e=1396778878&h=7d995790c40f722608d7c997c7380b8c"
     print track.title
     return stream_url.location
 
