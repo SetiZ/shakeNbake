@@ -54,3 +54,27 @@ In another terminal
 
     cd test
     python test_sixaxis.py
+
+Troubleshouting
+---------------
+
+If pairing fails: Unable to retrieve local bd_addr from `hcitool dev`.
+
+Is the USB interface up and running?
+
+    sudo hciconfig hci0 
+    hci0:	Type: BR/EDR  Bus: USB
+	    BD Address: 00:02:72:CD:4E:2F  ACL MTU: 1021:8  SCO MTU: 64:1
+	    DOWN 
+	    RX bytes:547 acl:0 sco:0 events:27 errors:0
+	    TX bytes:384 acl:0 sco:0 commands:27 errors:0
+
+If Down:
+
+    sudo hciconfig hci0 up
+    sudo hciconfig hci0 
+    hci0:	Type: BR/EDR  Bus: USB
+	    BD Address: 00:02:72:CD:4E:2F  ACL MTU: 1021:8  SCO MTU: 64:1
+	    UP RUNNING 
+	    RX bytes:1094 acl:0 sco:0 events:54 errors:0
+	    TX bytes:768 acl:0 sco:0 commands:54 errors:0
