@@ -30,6 +30,6 @@ while(1):
     if shakeNbake.sixaxis.getButton()["r1"] & allow_next:
         shakeNbake.soundcloud_api.search("Next")
         allow_next = False
-    if lag % 500000 == 0:
+    if lag % 400000 == 0:
         allow_next = True
     
