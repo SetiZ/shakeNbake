@@ -47,6 +47,14 @@ button_pressed = {
 
 axis_values = [0, 0, 0, 0, 0, 0, 0]
 
+shake_energy = [0]*100
+shake_energy_idx = 0
+previous_shake = 0
+
+def computeShakeEnergy():
+    global shake_energy
+    return sum(shake_energy)/len(shake_energy)
+
 shake = False
 
 running = 1
@@ -61,6 +69,8 @@ class ThreadClass(threading.Thread):
         global running
         global axis_values
         global shake 
+        global shake_energy
+        global shake_energy_idx
         shake_allowed_time = 0
 
         while 1:
@@ -79,13 +89,10 @@ class ThreadClass(threading.Thread):
 
             if type_ & 0x02:
                 if id_ < 7:
-                    if numpy.abs(axis_values[id_] - value) > 1000:
-                        if timestamp > shake_allowed_time:
-                            shake = True
-                            #print "Shake"
-                            #if player.check_state():
-                            #    player.setUri(soundcloud_api.getTrack())
-                            shake_allowed_time = timestamp + 50
+                    shake_energy_idx = (shake_energy_idx + 1) % len(shake_energy)
+                    shake_energy[shake_energy_idx] = numpy.abs(axis_values[id_] - value)
+                    if computeShakeEnergy() > 10000:
+                        shake = True
                     else:
                         shake = False
                         
