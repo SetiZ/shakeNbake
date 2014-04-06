@@ -8,7 +8,11 @@ client = soundcloud.Client(client_id='283a6af84980b4412fe06e181c3fa6ae')
 # fetch track to stream
  #track = client.get('/tracks/293')
 
-tracks_list = client.get('/tracks', license='cc-by-sa')
+tracks_list = None 
+
+def search():
+    global tracks_list
+    tracks_list = client.get('/tracks', license='cc-by-sa')
 
 def getTrack():
     random_int = random.randint(0,len(tracks_list)-1)

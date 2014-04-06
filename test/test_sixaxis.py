@@ -5,6 +5,7 @@ import shakeNbake
 import pprint
 
 shakeNbake.sixaxis.init("/dev/input/js0")
+shakeNbake.soundcloud_api.search()
 pp = pprint.PrettyPrinter(indent=4)
 player = shakeNbake.audio.Player()
 
