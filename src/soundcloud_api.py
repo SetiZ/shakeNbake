@@ -43,7 +43,7 @@ def getTrack():
         stream_url = client.get(track.stream_url, allow_redirects=False)
     except Exception, e:
         print "Get track error, default track "
-        return "https://soundcloud.hs.llnwd.net/43Jmlyo2Tmi3.128.mp3?AWSAccessKeyId=AKIAJ4IAZE5EOI7PA7VQ&Expires=1396778878&Signature=Z3BHM9fUUwzLaU9o3LuQ7%2BMi%2BUE%3D&e=1396778878&h=7d995790c40f722608d7c997c7380b8c"
+        return "https://ec-media.soundcloud.com/BJqvXIDorfhA.128.mp3?f10880d39085a94a0418a7ef69b03d522cd6dfee9399eeb9a525089a66fdba3d03c47d205cc211c30ba5c6c376ddae11fbe1047f5975a5d55966616d83c12bf9487190f871&AWSAccessKeyId=AKIAJNIGGLK7XA7YZSNQ&Expires=1396954187&Signature=qJvwM2oiHNl%2Bf5PoAUZWvL7cBII%3D"
     print track.title
     return stream_url.location
 
