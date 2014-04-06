@@ -9,7 +9,10 @@ shakeNbake.soundcloud_api.search()
 pp = pprint.PrettyPrinter(indent=4)
 player = shakeNbake.audio.Player()
 
+allow_next = True
+lag = 0
 while(1):
+    lag += 1
     if shakeNbake.sixaxis.getButton()["ps"] == True:
         shakeNbake.sixaxis.shutdown()
         break
@@ -21,8 +24,12 @@ while(1):
             player.stop()
         print "Bake"
         player.play()
-    if shakeNbake.sixaxis.getButton()["l1"]:
+    if shakeNbake.sixaxis.getButton()["l1"] & allow_next:
         shakeNbake.soundcloud_api.search("Previous")
-    if shakeNbake.sixaxis.getButton()["r1"]:
+        allow_next = False
+    if shakeNbake.sixaxis.getButton()["r1"] & allow_next:
         shakeNbake.soundcloud_api.search("Next")
+        allow_next = False
+    if lag % 500000 == 0:
+        allow_next = True
     
