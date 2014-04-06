@@ -10,9 +10,21 @@ client = soundcloud.Client(client_id='283a6af84980b4412fe06e181c3fa6ae')
 
 tracks_list = None 
 
-def search():
+genres_list = ["Ambient", "Country", "Folk", "Pop", "Metal", "Trip Hop"]
+current_genre_idx = 0
+
+def search(step=None):
+    global genres_list
+    global current_genre_idx
     global tracks_list
-    tracks_list = client.get('/tracks', license='cc-by-sa')
+
+    if step == "Next":
+        current_genre_idx = (1+current_genre_idx) % len(genres_list)
+    elif step == "Previous":
+        current_genre_idx = (current_genre_idx-1) % len(genres_list)
+
+    print genres_list[current_genre_idx]
+    tracks_list = client.get('/tracks', license='cc-by-sa', genres=[genres_list[current_genre_idx]])
 
 def getTrack():
     random_int = random.randint(0,len(tracks_list)-1)

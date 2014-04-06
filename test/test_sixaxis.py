@@ -19,5 +19,10 @@ while(1):
     if shakeNbake.sixaxis.getButton()["cross"] == True:
         if player.check_state():
             player.stop()
+        print "Bake"
         player.play()
+    if shakeNbake.sixaxis.getButton()["l1"]:
+        shakeNbake.soundcloud_api.search("Previous")
+    if shakeNbake.sixaxis.getButton()["r1"]:
+        shakeNbake.soundcloud_api.search("Next")
     

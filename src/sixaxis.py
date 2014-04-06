@@ -73,7 +73,6 @@ class ThreadClass(threading.Thread):
             if type_ & 0x01:
                 if value == 1:
                     button_pressed[button_name[id_]] = True
-                    print "Bake"
                 elif value == 0:
                     button_pressed[button_name[id_]] = False
                     
