@@ -17,6 +17,7 @@ def search(step=None):
     global genres_list
     global current_genre_idx
     global tracks_list
+    succeed = False
 
     if step == "Next":
         current_genre_idx = (1+current_genre_idx) % len(genres_list)
@@ -24,7 +25,12 @@ def search(step=None):
         current_genre_idx = (current_genre_idx-1) % len(genres_list)
 
     print genres_list[current_genre_idx]
-    tracks_list = client.get('/tracks', license='cc-by-sa', genres=genres_list[current_genre_idx])
+    while succeed == False:
+        try:
+            tracks_list = client.get('/tracks', license='cc-by-sa', genres=genres_list[current_genre_idx])
+            succeed == True
+        except Exception, e:
+            print 'Retry'
 
 def getTrack():
     random_int = random.randint(0,len(tracks_list)-1)
